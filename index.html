@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Эталон Лиды">
+<meta name="theme-color" content="#0a0f1e">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Эталон Лиды</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg: #0a0f1e; --card: #111827; --border: rgba(255,255,255,0.08);
+  --text: #f1f5f9; --sub: #64748b; --accent: #60a5fa;
+  --green: #34d399; --purple: #a78bfa; --red: #f87171; --yellow: #f59e0b;
+}
+body { background: var(--bg); color: var(--text); font-family: -apple-system, 'Segoe UI', sans-serif; min-height: 100vh; padding-bottom: 80px; }
+
+/* Header */
+.header { background: var(--card); border-bottom: 1px solid var(--border); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+.header-title { font-size: 18px; font-weight: 700; }
+.header-sub { font-size: 11px; color: var(--sub); margin-top: 2px; }
+.notify-btn { background: var(--accent); border: none; border-radius: 10px; color: white; padding: 8px 14px; font-size: 13px; cursor: pointer; font-family: inherit; transition: opacity 0.2s; }
+.notify-btn:active { opacity: 0.7; }
+.notify-btn.on { background: var(--green); }
+.notify-btn.off { background: var(--sub); }
+
+/* Tabs */
+.tabs { display: flex; background: var(--card); border-bottom: 1px solid var(--border); }
+.tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; color: var(--sub); border: none; background: none; cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Content */
+.panel { display: none; padding: 16px; }
+.panel.active { display: block; }
+
+/* Stats */
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.stat { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+.stat-val { font-size: 28px; font-weight: 700; font-family: monospace; line-height: 1; }
+.stat-lbl { font-size: 10px; color: var(--sub); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* Lead cards */
+.lead-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 10px; }
+.lead-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.lead-name { font-size: 15px; font-weight: 600; flex: 1; margin-right: 8px; }
+.lead-time { font-size: 11px; color: var(--sub); white-space: nowrap; }
+.lead-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.badge { border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 500; }
+.badge-blue { background: rgba(96,165,250,0.15); color: var(--accent); }
+.badge-purple { background: rgba(167,139,250,0.15); color: var(--purple); }
+.badge-green { background: rgba(52,211,153,0.15); color: var(--green); }
+.lead-footer { display: flex; justify-content: space-between; align-items: center; }
+.lead-manager { font-size: 12px; color: var(--sub); }
+.lead-price { font-size: 14px; font-weight: 600; font-family: monospace; color: var(--green); }
+.lead-link { font-size: 12px; color: var(--accent); text-decoration: none; }
+
+/* Managers */
+.mgr-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; }
+.mgr-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex-shrink: 0; }
+.mgr-name { font-size: 14px; font-weight: 600; }
+.mgr-sub { font-size: 12px; color: var(--sub); margin-top: 2px; }
+.mgr-next { margin-left: auto; background: rgba(96,165,250,0.15); color: var(--accent); border-radius: 8px; padding: 4px 10px; font-size: 11px; font-weight: 600; }
+
+/* Filter */
+.filter-row { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
+.filter-btn { border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 12px; background: none; color: var(--sub); cursor: pointer; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
+.filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+/* Empty */
+.empty { text-align: center; padding: 60px 20px; color: var(--sub); }
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+/* Toast */
+.toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #1e293b; border: 1px solid var(--border); border-radius: 12px; padding: 10px 20px; font-size: 13px; z-index: 100; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
+.toast.show { opacity: 1; }
+
+/* Bottom nav */
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--border); display: flex; padding: 8px 0; padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
+.nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px; border: none; background: none; color: var(--sub); font-size: 10px; cursor: pointer; font-family: inherit; }
+.nav-btn.active { color: var(--accent); }
+.nav-icon { font-size: 22px; line-height: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">Эталон Лиды</div>
+    <div class="header-sub" id="last-update">Загрузка...</div>
+  </div>
+  <button class="notify-btn off" id="notify-btn" onclick="toggleNotify()">🔔 Включить</button>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('leads', this)">Лиды</button>
+  <button class="tab" onclick="showTab('stats', this)">Статистика</button>
+  <button class="tab" onclick="showTab('managers', this)">Менеджеры</button>
+</div>
+
+<!-- ЛИДЫ -->
+<div class="panel active" id="tab-leads">
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="setFilter('all', this)">Все</button>
+    <button class="filter-btn" onclick="setFilter('pr лид', this)">PR Лид</button>
+    <button class="filter-btn" onclick="setFilter('pr входящий', this)">PR Входящий</button>
+  </div>
+  <div id="leads-list"><div class="empty"><div class="empty-icon">📋</div>Загрузка лидов...</div></div>
+</div>
+
+<!-- СТАТИСТИКА -->
+<div class="panel" id="tab-stats">
+  <div class="stats">
+    <div class="stat"><div class="stat-val" style="color:var(--accent)" id="s-total">—</div><div class="stat-lbl">Всего лидов</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--purple)" id="s-lid">—</div><div class="stat-lbl">PR Лид</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--green)" id="s-in">—</div><div class="stat-lbl">PR Входящий</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--yellow)" id="s-today">—</div><div class="stat-lbl">Сегодня</div></div>
+  </div>
+  <div id="stats-chart"></div>
+</div>
+
+<!-- МЕНЕДЖЕРЫ -->
+<div class="panel" id="tab-managers">
+  <div id="managers-list"><div class="empty"><div class="empty-icon">👥</div>Загрузка...</div></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var BACKEND = "https://amo-backend-xrv2.onrender.com";
+var allLeads = [];
+var currentFilter = "all";
+var nextManagerIdx = 0;
+
+var COLORS = ["#60a5fa","#a78bfa","#34d399","#f59e0b","#f87171","#fb923c"];
+var MANAGERS = [
+  {id:13468817, name:"Рябчикова Ангелина"},
+  {id:1680076,  name:"Юлия Бровенко"},
+  {id:6340248,  name:"Анастасия Лебедева"},
+  {id:3835645,  name:"Татьяна Селиверстова"},
+  {id:2942284,  name:"Лариса Голушко"},
+  {id:10902929, name:"Столярова Ахметов"}
+];
+
+function showTab(id, btn) {
+  document.querySelectorAll(".panel").forEach(function(p){p.classList.remove("active");});
+  document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active");});
+  document.getElementById("tab-"+id).classList.add("active");
+  btn.classList.add("active");
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll(".filter-btn").forEach(function(b){b.classList.remove("active");});
+  btn.classList.add("active");
+  renderLeads();
+}
+
+function fm(v) {
+  if(!v) return "—";
+  if(v>=1e6) return (v/1e6).toFixed(1)+"М р.";
+  if(v>=1e3) return (v/1e3).toFixed(0)+"К р.";
+  return v+" р.";
+}
+
+function initials(name) {
+  var parts = name.split(" ");
+  return parts.map(function(p){return p[0]||"";}).join("").substring(0,2).toUpperCase();
+}
+
+function renderLeads() {
+  var filtered = currentFilter === "all"
+    ? allLeads
+    : allLeads.filter(function(l){return l.channel && l.channel.toLowerCase()===currentFilter;});
+  var el = document.getElementById("leads-list");
+  if(!filtered.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>Лидов пока нет</div>';
+    return;
+  }
+  el.innerHTML = filtered.map(function(l, i) {
+    var chClass = l.channel && l.channel.toLowerCase()==="pr лид" ? "badge-blue" : "badge-purple";
+    return '<div class="lead-card">'
+      +'<div class="lead-header"><div class="lead-name">'+l.name+'</div><div class="lead-time">'+l.created+'</div></div>'
+      +'<div class="lead-meta">'
+      +'<span class="badge '+chClass+'">'+l.channel+'</span>'
+      +(l.city&&l.city!=="—"?'<span class="badge badge-green">🏙 '+l.city+'</span>':"")
+      +'</div>'
+      +'<div class="lead-footer">'
+      +'<div class="lead-manager">👤 '+l.manager+'</div>'
+      +'<div style="display:flex;align-items:center;gap:10px">'
+      +(l.price?'<div class="lead-price">'+fm(l.price)+'</div>':"")
+      +'<a class="lead-link" href="'+l.url+'" target="_blank">Открыть →</a>'
+      +'</div></div>'
+      +'</div>';
+  }).join("");
+}
+
+function renderStats() {
+  var total = allLeads.length;
+  var lid   = allLeads.filter(function(l){return l.channel&&l.channel.toLowerCase()==="pr лид";}).length;
+  var inb   = allLeads.filter(function(l){return l.channel&&l.channel.toLowerCase()==="pr входящий";}).length;
+  var today = allLeads.filter(function(l){
+    return l.created && l.created.indexOf(new Date().toLocaleDateString("ru-RU").substring(0,5))===0;
+  }).length;
+  document.getElementById("s-total").textContent = total;
+  document.getElementById("s-lid").textContent   = lid;
+  document.getElementById("s-in").textContent    = inb;
+  document.getElementById("s-today").textContent = today;
+
+  // Счётчик по менеджерам
+  var mgr = {};
+  allLeads.forEach(function(l){ mgr[l.manager] = (mgr[l.manager]||0)+1; });
+  var sorted = Object.entries(mgr).sort(function(a,b){return b[1]-a[1];});
+  var max = sorted[0] ? sorted[0][1] : 1;
+  document.getElementById("stats-chart").innerHTML = sorted.map(function(m,i){
+    var pct = Math.round(m[1]/max*100);
+    return '<div style="margin-bottom:10px">'
+      +'<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">'
+      +'<span style="color:#94a3b8">'+m[0]+'</span>'
+      +'<span style="font-family:monospace;color:'+COLORS[i%COLORS.length]+'">'+m[1]+'</span>'
+      +'</div>'
+      +'<div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px">'
+      +'<div style="height:6px;border-radius:3px;background:'+COLORS[i%COLORS.length]+';width:'+pct+'%"></div>'
+      +'</div></div>';
+  }).join("");
+}
+
+function renderManagers() {
+  var el = document.getElementById("managers-list");
+  el.innerHTML = MANAGERS.map(function(m, i) {
+    var isNext = i === nextManagerIdx;
+    return '<div class="mgr-card">'
+      +'<div class="mgr-avatar" style="background:'+COLORS[i%COLORS.length]+'22;color:'+COLORS[i%COLORS.length]+'">'+initials(m.name)+'</div>'
+      +'<div><div class="mgr-name">'+m.name+'</div></div>'
+      +(isNext?'<div class="mgr-next">Следующий</div>':"")
+      +'</div>';
+  }).join("");
+}
+
+async function loadLeads() {
+  try {
+    var r = await fetch(BACKEND + "/api/leads");
+    var data = await r.json();
+    allLeads = data.leads || [];
+    renderLeads();
+    renderStats();
+    document.getElementById("last-update").textContent = "Обновлено: " + new Date().toLocaleTimeString("ru-RU");
+  } catch(e) {
+    console.error(e);
+  }
+  try {
+    var r2 = await fetch(BACKEND + "/api/managers");
+    var d2 = await r2.json();
+    nextManagerIdx = d2.next || 0;
+    renderManagers();
+  } catch(e) {}
+}
+
+// Push-уведомления
+var swReg = null;
+
+async function initSW() {
+  if(!("serviceWorker" in navigator)) return;
+  swReg = await navigator.serviceWorker.register("/sw.js");
+  var sub = await swReg.pushManager.getSubscription();
+  if(sub) setNotifyBtn(true);
+}
+
+async function toggleNotify() {
+  if(!swReg) { showToast("Service Worker не поддерживается"); return; }
+  var sub = await swReg.pushManager.getSubscription();
+  if(sub) {
+    await sub.unsubscribe();
+    await fetch(BACKEND+"/api/subscribe", {method:"DELETE", headers:{"Content-Type":"application/json"}, body:JSON.stringify(sub.toJSON())});
+    setNotifyBtn(false);
+    showToast("Уведомления отключены");
+  } else {
+    var perm = await Notification.requestPermission();
+    if(perm !== "granted") { showToast("Разрешение отклонено"); return; }
+    var r = await fetch(BACKEND+"/api/vapid-public");
+    var {key} = await r.json();
+    var newSub = await swReg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(key)
+    });
+    await fetch(BACKEND+"/api/subscribe", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(newSub.toJSON())});
+    setNotifyBtn(true);
+    showToast("Уведомления включены ✓");
+  }
+}
+
+function setNotifyBtn(on) {
+  var btn = document.getElementById("notify-btn");
+  btn.className = "notify-btn " + (on ? "on" : "off");
+  btn.textContent = on ? "🔔 Вкл" : "🔔 Включить";
+}
+
+function urlBase64ToUint8Array(base64String) {
+  var padding = "=".repeat((4 - base64String.length % 4) % 4);
+  var base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  var rawData = window.atob(base64);
+  return new Uint8Array(Array.from(rawData).map(function(c){return c.charCodeAt(0);}));
+}
+
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(function(){t.classList.remove("show");}, 2500);
+}
+
+// Инициализация
+initSW();
+loadLeads();
+renderManagers();
+setInterval(loadLeads, 60000);
+</script>
+</body>
+</html>
