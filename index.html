@@ -190,7 +190,10 @@ function renderLeads() {
       +(l.city&&l.city!=="—"?'<span class="badge badge-green">🏙 '+l.city+'</span>':"")
       +'</div>'
       +'<div class="lead-footer">'
+      +'<div>'
       +'<div class="lead-manager">👤 '+l.manager+'</div>'
+      +(l.phone&&l.phone!="—"?'<div style="font-size:12px;margin-top:3px"><a href="tel:'+l.phone+'" style="color:var(--green);text-decoration:none">📞 '+l.phone+'</a></div>':"")
+      +'</div>'
       +'<div style="display:flex;align-items:center;gap:10px">'
       +(l.price?'<div class="lead-price">'+fm(l.price)+'</div>':"")
       +'<a class="lead-link" href="'+l.url+'" target="_blank">Открыть →</a>'
