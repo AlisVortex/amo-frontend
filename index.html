@@ -165,11 +165,15 @@ function fmtDate(d) {
 
 function parseLeadDate(lead) {
   if(!lead.created) return null;
-  var parts = lead.created.split(" ")[0].split(".");
+  // формат: "30.03 05:59" — день.месяц время
+  var datepart = lead.created.split(" ")[0]; // "30.03"
+  var parts = datepart.split(".");
   if(parts.length < 2) return null;
-  var d = parseInt(parts[0]), m = parseInt(parts[1]) - 1;
+  var d = parseInt(parts[0]);
+  var m = parseInt(parts[1]) - 1;
   var yr = new Date().getFullYear();
-  return new Date(yr, m, d);
+  var result = new Date(yr, m, d, 12, 0, 0); // полдень чтобы не было проблем с timezone
+  return result;
 }
 
 function isThisWeek(lead) {
@@ -333,6 +337,10 @@ async function loadLeads() {
     var data = await r.json();
     allLeads  = data.leads || [];
     weekLeads = allLeads.filter(isThisWeek);
+    console.log("Всего лидов:", allLeads.length, "За неделю:", weekLeads.length);
+    if(allLeads[0]) console.log("Пример даты:", allLeads[0].created, "→", parseLeadDate(allLeads[0]));
+    var b = getWeekBounds();
+    console.log("Неделя:", b.start.toLocaleDateString(), "—", b.end.toLocaleDateString());
 
     var b = getWeekBounds();
     var label = fmtDate(b.start) + " — " + fmtDate(b.end);
