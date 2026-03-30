@@ -198,6 +198,7 @@ function showTab(id, btn) {
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active");});
   document.getElementById("tab-"+id).classList.add("active");
   btn.classList.add("active");
+  if(id === "archive" && !window.archiveLoaded) loadArchive();
 }
 function showToast(msg) {
   var t = document.getElementById("toast");
@@ -401,6 +402,19 @@ function urlBase64ToUint8Array(b64) {
   var b = (b64+pad).replace(/-/g,"+").replace(/_/g,"/");
   var raw = window.atob(b);
   return new Uint8Array(Array.from(raw).map(function(c){return c.charCodeAt(0);}));
+}
+
+async function loadArchive() {
+  window.archiveLoaded = true;
+  document.getElementById("archive-list").innerHTML = "<div class='empty'><div class='empty-icon'>⏳</div>Загрузка архива...</div>";
+  try {
+    var r = await fetch(BACKEND + "/api/archive");
+    var data = await r.json();
+    allLeads = data.leads || [];
+    renderArchive();
+  } catch(e) {
+    document.getElementById("archive-list").innerHTML = "<div class='empty'><div class='empty-icon'>❌</div>Ошибка загрузки</div>";
+  }
 }
 
 initSW();
