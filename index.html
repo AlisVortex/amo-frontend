@@ -19,32 +19,22 @@
   --green: #34d399; --purple: #a78bfa; --red: #f87171; --yellow: #f59e0b;
 }
 body { background: var(--bg); color: var(--text); font-family: -apple-system, 'Segoe UI', sans-serif; min-height: 100vh; padding-bottom: 80px; }
-
-/* Header */
-.header { background: var(--card); border-bottom: 1px solid var(--border); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
-.header-title { font-size: 18px; font-weight: 700; }
+.header { background: var(--card); border-bottom: 1px solid var(--border); padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+.header-title { font-size: 17px; font-weight: 700; }
 .header-sub { font-size: 11px; color: var(--sub); margin-top: 2px; }
-.notify-btn { background: var(--accent); border: none; border-radius: 10px; color: white; padding: 8px 14px; font-size: 13px; cursor: pointer; font-family: inherit; transition: opacity 0.2s; }
-.notify-btn:active { opacity: 0.7; }
+.notify-btn { background: var(--accent); border: none; border-radius: 10px; color: white; padding: 7px 12px; font-size: 12px; cursor: pointer; font-family: inherit; }
 .notify-btn.on { background: var(--green); }
 .notify-btn.off { background: var(--sub); }
-
-/* Tabs */
-.tabs { display: flex; background: var(--card); border-bottom: 1px solid var(--border); }
-.tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; color: var(--sub); border: none; background: none; cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.tabs { display: flex; background: var(--card); border-bottom: 1px solid var(--border); overflow-x: auto; }
+.tab { flex-shrink: 0; padding: 12px 16px; text-align: center; font-size: 13px; color: var(--sub); border: none; background: none; cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; }
 .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-/* Content */
-.panel { display: none; padding: 16px; }
+.panel { display: none; padding: 14px; }
 .panel.active { display: block; }
-
-/* Stats */
-.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.week-label { background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.2); border-radius: 10px; padding: 8px 14px; font-size: 12px; color: var(--accent); margin-bottom: 14px; text-align: center; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
 .stat { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
 .stat-val { font-size: 28px; font-weight: 700; font-family: monospace; line-height: 1; }
 .stat-lbl { font-size: 10px; color: var(--sub); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
-
-/* Lead cards */
 .lead-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 10px; }
 .lead-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
 .lead-name { font-size: 15px; font-weight: 600; flex: 1; margin-right: 8px; }
@@ -54,36 +44,29 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'S
 .badge-blue { background: rgba(96,165,250,0.15); color: var(--accent); }
 .badge-purple { background: rgba(167,139,250,0.15); color: var(--purple); }
 .badge-green { background: rgba(52,211,153,0.15); color: var(--green); }
-.lead-footer { display: flex; justify-content: space-between; align-items: center; }
+.badge-yellow { background: rgba(245,158,11,0.15); color: var(--yellow); }
+.lead-footer { display: flex; justify-content: space-between; align-items: flex-end; }
 .lead-manager { font-size: 12px; color: var(--sub); }
+.lead-phone { font-size: 12px; margin-top: 3px; }
+.lead-phone a { color: var(--green); text-decoration: none; }
 .lead-price { font-size: 14px; font-weight: 600; font-family: monospace; color: var(--green); }
 .lead-link { font-size: 12px; color: var(--accent); text-decoration: none; }
-
-/* Managers */
+.filter-row { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
+.filter-btn { border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 12px; background: none; color: var(--sub); cursor: pointer; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
+.filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
 .mgr-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; }
 .mgr-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex-shrink: 0; }
 .mgr-name { font-size: 14px; font-weight: 600; }
 .mgr-sub { font-size: 12px; color: var(--sub); margin-top: 2px; }
 .mgr-next { margin-left: auto; background: rgba(96,165,250,0.15); color: var(--accent); border-radius: 8px; padding: 4px 10px; font-size: 11px; font-weight: 600; }
-
-/* Filter */
-.filter-row { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
-.filter-btn { border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 12px; background: none; color: var(--sub); cursor: pointer; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
-.filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
-
-/* Empty */
-.empty { text-align: center; padding: 60px 20px; color: var(--sub); }
-.empty-icon { font-size: 48px; margin-bottom: 12px; }
-
-/* Toast */
+.archive-month { font-size: 12px; color: var(--sub); text-transform: uppercase; letter-spacing: 2px; padding: 10px 0 6px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+.empty { text-align: center; padding: 50px 20px; color: var(--sub); }
+.empty-icon { font-size: 44px; margin-bottom: 10px; }
 .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #1e293b; border: 1px solid var(--border); border-radius: 12px; padding: 10px 20px; font-size: 13px; z-index: 100; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
 .toast.show { opacity: 1; }
-
-/* Bottom nav */
 .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--border); display: flex; padding: 8px 0; padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
 .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px; border: none; background: none; color: var(--sub); font-size: 10px; cursor: pointer; font-family: inherit; }
 .nav-btn.active { color: var(--accent); }
-.nav-icon { font-size: 22px; line-height: 1; }
 </style>
 </head>
 <body>
@@ -91,49 +74,65 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'S
 <div class="header">
   <div>
     <div class="header-title">Эталон Лиды</div>
-    <div class="header-sub" id="last-update">Загрузка...</div>
+    <div class="header-sub" id="week-range">Загрузка...</div>
   </div>
   <button class="notify-btn off" id="notify-btn" onclick="toggleNotify()">🔔 Включить</button>
 </div>
 
 <div class="tabs">
-  <button class="tab active" onclick="showTab('leads', this)">Лиды</button>
-  <button class="tab" onclick="showTab('stats', this)">Статистика</button>
-  <button class="tab" onclick="showTab('managers', this)">Менеджеры</button>
+  <button class="tab active" onclick="showTab('leads',this)">Эта неделя</button>
+  <button class="tab" onclick="showTab('archive',this)">Архив</button>
+  <button class="tab" onclick="showTab('stats',this)">Статистика</button>
+  <button class="tab" onclick="showTab('managers',this)">Менеджеры</button>
 </div>
 
-<!-- ЛИДЫ -->
+<!-- ЭТА НЕДЕЛЯ -->
 <div class="panel active" id="tab-leads">
+  <div class="week-label" id="week-label">Загрузка...</div>
   <div class="filter-row">
-    <button class="filter-btn active" onclick="setFilter('all', this)">Все</button>
-    <button class="filter-btn" onclick="setFilter('pr лид', this)">PR Лид</button>
-    <button class="filter-btn" onclick="setFilter('pr входящий', this)">PR Входящий</button>
+    <button class="filter-btn active" onclick="setFilter('all',this)">Все</button>
+    <button class="filter-btn" onclick="setFilter('pr лид',this)">PR Лид</button>
+    <button class="filter-btn" onclick="setFilter('pr входящий',this)">PR Входящий</button>
+    <button class="filter-btn" onclick="setFilter('тильда',this)">Тильда</button>
   </div>
-  <div id="leads-list"><div class="empty"><div class="empty-icon">📋</div>Загрузка лидов...</div></div>
+  <div id="leads-list"><div class="empty"><div class="empty-icon">📋</div>Загрузка...</div></div>
+</div>
+
+<!-- АРХИВ -->
+<div class="panel" id="tab-archive">
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="setArchiveFilter('all',this)">Все</button>
+    <button class="filter-btn" onclick="setArchiveFilter('pr лид',this)">PR Лид</button>
+    <button class="filter-btn" onclick="setArchiveFilter('pr входящий',this)">PR Входящий</button>
+    <button class="filter-btn" onclick="setArchiveFilter('тильда',this)">Тильда</button>
+  </div>
+  <div id="archive-list"><div class="empty"><div class="empty-icon">📦</div>Загрузка...</div></div>
 </div>
 
 <!-- СТАТИСТИКА -->
 <div class="panel" id="tab-stats">
   <div class="stats">
-    <div class="stat"><div class="stat-val" style="color:var(--accent)" id="s-total">—</div><div class="stat-lbl">Всего лидов</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--accent)" id="s-total">—</div><div class="stat-lbl">За неделю</div></div>
     <div class="stat"><div class="stat-val" style="color:var(--purple)" id="s-lid">—</div><div class="stat-lbl">PR Лид</div></div>
     <div class="stat"><div class="stat-val" style="color:var(--green)" id="s-in">—</div><div class="stat-lbl">PR Входящий</div></div>
-    <div class="stat"><div class="stat-val" style="color:var(--yellow)" id="s-today">—</div><div class="stat-lbl">Сегодня</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--yellow)" id="s-tilda">—</div><div class="stat-lbl">Тильда</div></div>
   </div>
   <div id="stats-chart"></div>
 </div>
 
 <!-- МЕНЕДЖЕРЫ -->
 <div class="panel" id="tab-managers">
-  <div id="managers-list"><div class="empty"><div class="empty-icon">👥</div>Загрузка...</div></div>
+  <div id="managers-list"></div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 var BACKEND = "https://amo-backend-xrv2.onrender.com";
-var allLeads = [];
+var allLeads    = [];  // все лиды
+var weekLeads   = [];  // только текущая неделя
 var currentFilter = "all";
+var archiveFilter = "all";
 var nextManagerIdx = 0;
 
 var COLORS = ["#60a5fa","#a78bfa","#34d399","#f59e0b","#f87171","#fb923c"];
@@ -146,77 +145,160 @@ var MANAGERS = [
   {id:10902929, name:"Столярова Ахметов"}
 ];
 
+// ===== НЕДЕЛЯ =====
+function getWeekBounds() {
+  var now = new Date();
+  var day = now.getDay();
+  var diffToMon = (day === 0 ? -6 : 1 - day);
+  var mon = new Date(now);
+  mon.setHours(0,0,0,0);
+  mon.setDate(now.getDate() + diffToMon);
+  var sun = new Date(mon);
+  sun.setDate(mon.getDate() + 6);
+  sun.setHours(23,59,59,999);
+  return {start: mon, end: sun};
+}
+
+function fmtDate(d) {
+  return d.toLocaleDateString("ru-RU", {day:"numeric", month:"long"});
+}
+
+function parseLeadDate(lead) {
+  if(!lead.created) return null;
+  var parts = lead.created.split(" ")[0].split(".");
+  if(parts.length < 2) return null;
+  var d = parseInt(parts[0]), m = parseInt(parts[1]) - 1;
+  var yr = new Date().getFullYear();
+  return new Date(yr, m, d);
+}
+
+function isThisWeek(lead) {
+  var ld = parseLeadDate(lead);
+  if(!ld) return false;
+  var b = getWeekBounds();
+  return ld >= b.start && ld <= b.end;
+}
+
+// ===== UTILS =====
+function fm(v) {
+  if(!v) return "";
+  if(v>=1e6) return (v/1e6).toFixed(1)+"М р.";
+  if(v>=1e3) return (v/1e3).toFixed(0)+"К р.";
+  return v+" р.";
+}
+function initials(name) {
+  return name.split(" ").map(function(p){return p[0]||"";}).join("").substring(0,2).toUpperCase();
+}
 function showTab(id, btn) {
   document.querySelectorAll(".panel").forEach(function(p){p.classList.remove("active");});
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active");});
   document.getElementById("tab-"+id).classList.add("active");
   btn.classList.add("active");
 }
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(function(){t.classList.remove("show");}, 2500);
+}
 
+// ===== LEAD CARD =====
+function leadCard(l) {
+  var chClass = l.channel && l.channel.toLowerCase()==="pr лид" ? "badge-blue" : "badge-purple";
+  var isTilda = l.source && l.source.toLowerCase().indexOf("тильда") >= 0;
+  return '<div class="lead-card">'
+    +'<div class="lead-header"><div class="lead-name">'+l.name+'</div><div class="lead-time">'+l.created+'</div></div>'
+    +'<div class="lead-meta">'
+    +(l.channel&&l.channel!=="—"?'<span class="badge '+chClass+'">'+l.channel+'</span>':"")
+    +(isTilda?'<span class="badge badge-yellow">🌐 '+l.source+'</span>':(l.source&&l.source!=="—"?'<span class="badge badge-yellow">'+l.source+'</span>':""))
+    +(l.city&&l.city!=="—"?'<span class="badge badge-green">🏙 '+l.city+'</span>':"")
+    +'</div>'
+    +'<div class="lead-footer">'
+    +'<div>'
+    +'<div class="lead-manager">👤 '+l.manager+'</div>'
+    +(l.phone&&l.phone!=="—"?'<div class="lead-phone"><a href="tel:'+l.phone+'">📞 '+l.phone+'</a></div>':"")
+    +'</div>'
+    +'<div style="display:flex;align-items:center;gap:10px">'
+    +(l.price?'<div class="lead-price">'+fm(l.price)+'</div>':"")
+    +'<a class="lead-link" href="'+l.url+'" target="_blank">Открыть →</a>'
+    +'</div>'
+    +'</div>'
+    +'</div>';
+}
+
+// ===== ФИЛЬТР ЛИДОВ (НЕДЕЛЯ) =====
 function setFilter(f, btn) {
   currentFilter = f;
-  document.querySelectorAll(".filter-btn").forEach(function(b){b.classList.remove("active");});
+  document.querySelectorAll("#tab-leads .filter-btn").forEach(function(b){b.classList.remove("active");});
   btn.classList.add("active");
   renderLeads();
 }
 
-function fm(v) {
-  if(!v) return "—";
-  if(v>=1e6) return (v/1e6).toFixed(1)+"М р.";
-  if(v>=1e3) return (v/1e3).toFixed(0)+"К р.";
-  return v+" р.";
-}
-
-function initials(name) {
-  var parts = name.split(" ");
-  return parts.map(function(p){return p[0]||"";}).join("").substring(0,2).toUpperCase();
-}
-
 function renderLeads() {
-  var filtered = currentFilter === "all"
-    ? allLeads
-    : allLeads.filter(function(l){return l.channel && l.channel.toLowerCase()===currentFilter;});
+  var data = currentFilter === "all" ? weekLeads : weekLeads.filter(function(l){
+    if(currentFilter === "тильда") return l.source && l.source.toLowerCase().indexOf("тильда") >= 0;
+    return l.channel && l.channel.toLowerCase() === currentFilter;
+  });
   var el = document.getElementById("leads-list");
-  if(!filtered.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>Лидов пока нет</div>';
+  if(!data.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>Лидов за эту неделю нет</div>';
     return;
   }
-  el.innerHTML = filtered.map(function(l, i) {
-    var chClass = l.channel && l.channel.toLowerCase()==="pr лид" ? "badge-blue" : "badge-purple";
-    return '<div class="lead-card">'
-      +'<div class="lead-header"><div class="lead-name">'+l.name+'</div><div class="lead-time">'+l.created+'</div></div>'
-      +'<div class="lead-meta">'
-      +'<span class="badge '+chClass+'">'+l.channel+'</span>'
-      +(l.city&&l.city!=="—"?'<span class="badge badge-green">🏙 '+l.city+'</span>':'')+(l.source&&l.source!=="—"?'<span class="badge" style="background:rgba(245,158,11,0.15);color:var(--yellow)">🌐 '+l.source+'</span>':'')
-      +'</div>'
-      +'<div class="lead-footer">'
-      +'<div>'
-      +'<div class="lead-manager">👤 '+l.manager+'</div>'
-      +(l.phone&&l.phone!="—"?'<div style="font-size:12px;margin-top:3px"><a href="tel:'+l.phone+'" style="color:var(--green);text-decoration:none">📞 '+l.phone+'</a></div>':"")
-      +'</div>'
-      +'<div style="display:flex;align-items:center;gap:10px">'
-      +(l.price?'<div class="lead-price">'+fm(l.price)+'</div>':"")
-      +'<a class="lead-link" href="'+l.url+'" target="_blank">Открыть →</a>'
-      +'</div></div>'
-      +'</div>';
-  }).join("");
+  el.innerHTML = data.map(leadCard).join("");
 }
 
+// ===== АРХИВ =====
+function setArchiveFilter(f, btn) {
+  archiveFilter = f;
+  document.querySelectorAll("#tab-archive .filter-btn").forEach(function(b){b.classList.remove("active");});
+  btn.classList.add("active");
+  renderArchive();
+}
+
+function renderArchive() {
+  var data = archiveFilter === "all" ? allLeads : allLeads.filter(function(l){
+    if(archiveFilter === "тильда") return l.source && l.source.toLowerCase().indexOf("тильда") >= 0;
+    return l.channel && l.channel.toLowerCase() === archiveFilter;
+  });
+  var el = document.getElementById("archive-list");
+  if(!data.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📦</div>Архив пуст</div>';
+    return;
+  }
+  // Группируем по месяцу
+  var groups = {};
+  data.forEach(function(l) {
+    var key = l.created ? l.created.split(" ")[0].split(".").slice(1).join(".") : "—";
+    // Показываем как "03.2026" → "Март 2026"
+    var parts = l.created ? l.created.split(" ")[0].split(".") : [];
+    var monthNames = ["","Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+    var mNum = parts[1] ? parseInt(parts[1]) : 0;
+    var yr = new Date().getFullYear();
+    var groupKey = mNum ? (monthNames[mNum] + " " + yr) : "—";
+    if(!groups[groupKey]) groups[groupKey] = [];
+    groups[groupKey].push(l);
+  });
+  var html = "";
+  Object.keys(groups).forEach(function(g) {
+    html += '<div class="archive-month">'+g+' · '+groups[g].length+' лидов</div>';
+    html += groups[g].map(leadCard).join("");
+  });
+  el.innerHTML = html;
+}
+
+// ===== СТАТИСТИКА =====
 function renderStats() {
-  var total = allLeads.length;
-  var lid   = allLeads.filter(function(l){return l.channel&&l.channel.toLowerCase()==="pr лид";}).length;
-  var inb   = allLeads.filter(function(l){return l.channel&&l.channel.toLowerCase()==="pr входящий";}).length;
-  var today = allLeads.filter(function(l){
-    return l.created && l.created.indexOf(new Date().toLocaleDateString("ru-RU").substring(0,5))===0;
-  }).length;
+  var total = weekLeads.length;
+  var lid   = weekLeads.filter(function(l){return l.channel&&l.channel.toLowerCase()==="pr лид";}).length;
+  var inb   = weekLeads.filter(function(l){return l.channel&&l.channel.toLowerCase()==="pr входящий";}).length;
+  var tilda = weekLeads.filter(function(l){return l.source&&l.source.toLowerCase().indexOf("тильда")>=0;}).length;
   document.getElementById("s-total").textContent = total;
   document.getElementById("s-lid").textContent   = lid;
   document.getElementById("s-in").textContent    = inb;
-  document.getElementById("s-today").textContent = today;
+  document.getElementById("s-tilda").textContent = tilda;
 
-  // Счётчик по менеджерам
   var mgr = {};
-  allLeads.forEach(function(l){ mgr[l.manager] = (mgr[l.manager]||0)+1; });
+  weekLeads.forEach(function(l){ mgr[l.manager] = (mgr[l.manager]||0)+1; });
   var sorted = Object.entries(mgr).sort(function(a,b){return b[1]-a[1];});
   var max = sorted[0] ? sorted[0][1] : 1;
   document.getElementById("stats-chart").innerHTML = sorted.map(function(m,i){
@@ -232,9 +314,9 @@ function renderStats() {
   }).join("");
 }
 
+// ===== МЕНЕДЖЕРЫ =====
 function renderManagers() {
-  var el = document.getElementById("managers-list");
-  el.innerHTML = MANAGERS.map(function(m, i) {
+  document.getElementById("managers-list").innerHTML = MANAGERS.map(function(m,i){
     var isNext = i === nextManagerIdx;
     return '<div class="mgr-card">'
       +'<div class="mgr-avatar" style="background:'+COLORS[i%COLORS.length]+'22;color:'+COLORS[i%COLORS.length]+'">'+initials(m.name)+'</div>'
@@ -244,14 +326,22 @@ function renderManagers() {
   }).join("");
 }
 
+// ===== ЗАГРУЗКА =====
 async function loadLeads() {
   try {
     var r = await fetch(BACKEND + "/api/leads");
     var data = await r.json();
-    allLeads = data.leads || [];
+    allLeads  = data.leads || [];
+    weekLeads = allLeads.filter(isThisWeek);
+
+    var b = getWeekBounds();
+    var label = fmtDate(b.start) + " — " + fmtDate(b.end);
+    document.getElementById("week-label").textContent = "📅 " + label;
+    document.getElementById("week-range").textContent = label;
+
     renderLeads();
+    renderArchive();
     renderStats();
-    document.getElementById("last-update").textContent = "Обновлено: " + new Date().toLocaleTimeString("ru-RU");
   } catch(e) {
     console.error(e);
   }
@@ -263,63 +353,50 @@ async function loadLeads() {
   } catch(e) {}
 }
 
-// Push-уведомления
+// ===== PUSH =====
 var swReg = null;
-
 async function initSW() {
   if(!("serviceWorker" in navigator)) return;
   swReg = await navigator.serviceWorker.register("/sw.js");
   var sub = await swReg.pushManager.getSubscription();
   if(sub) setNotifyBtn(true);
 }
-
 async function toggleNotify() {
   if(!swReg) { showToast("Service Worker не поддерживается"); return; }
   var sub = await swReg.pushManager.getSubscription();
   if(sub) {
     await sub.unsubscribe();
-    await fetch(BACKEND+"/api/subscribe", {method:"DELETE", headers:{"Content-Type":"application/json"}, body:JSON.stringify(sub.toJSON())});
+    await fetch(BACKEND+"/api/subscribe", {method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify(sub.toJSON())});
     setNotifyBtn(false);
     showToast("Уведомления отключены");
   } else {
     var perm = await Notification.requestPermission();
     if(perm !== "granted") { showToast("Разрешение отклонено"); return; }
     var r = await fetch(BACKEND+"/api/vapid-public");
-    var {key} = await r.json();
+    var d = await r.json();
     var newSub = await swReg.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(key)
+      applicationServerKey: urlBase64ToUint8Array(d.key)
     });
-    await fetch(BACKEND+"/api/subscribe", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(newSub.toJSON())});
+    await fetch(BACKEND+"/api/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(newSub.toJSON())});
     setNotifyBtn(true);
     showToast("Уведомления включены ✓");
   }
 }
-
 function setNotifyBtn(on) {
   var btn = document.getElementById("notify-btn");
-  btn.className = "notify-btn " + (on ? "on" : "off");
+  btn.className = "notify-btn " + (on?"on":"off");
   btn.textContent = on ? "🔔 Вкл" : "🔔 Включить";
 }
-
-function urlBase64ToUint8Array(base64String) {
-  var padding = "=".repeat((4 - base64String.length % 4) % 4);
-  var base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
-  var rawData = window.atob(base64);
-  return new Uint8Array(Array.from(rawData).map(function(c){return c.charCodeAt(0);}));
+function urlBase64ToUint8Array(b64) {
+  var pad = "=".repeat((4 - b64.length%4)%4);
+  var b = (b64+pad).replace(/-/g,"+").replace(/_/g,"/");
+  var raw = window.atob(b);
+  return new Uint8Array(Array.from(raw).map(function(c){return c.charCodeAt(0);}));
 }
 
-function showToast(msg) {
-  var t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  setTimeout(function(){t.classList.remove("show");}, 2500);
-}
-
-// Инициализация
 initSW();
 loadLeads();
-renderManagers();
 setInterval(loadLeads, 60000);
 </script>
 </body>
