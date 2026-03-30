@@ -371,18 +371,36 @@ async function initSW() {
   if(sub) setNotifyBtn(true);
 }
 async function toggleNotify() {
-  if(!swReg) { showToast("Service Worker не поддерживается"); return; }
-  var sub = await swReg.pushManager.getSubscription();
-  if(sub) {
-    await sub.unsubscribe();
-    await fetch(BACKEND+"/api/subscribe", {method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify(sub.toJSON())});
-    setNotifyBtn(false);
-    showToast("Уведомления отключены");
-  } else {
+  try {
+    if(!swReg) {
+      showToast("Установите приложение на экран");
+      return;
+    }
+    var sub = await swReg.pushManager.getSubscription();
+    if(sub) {
+      await sub.unsubscribe();
+      try {
+        await fetch(BACKEND+"/api/subscribe", {method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify(sub.toJSON())});
+      } catch(e) {}
+      setNotifyBtn(false);
+      showToast("Уведомления отключены");
+      return;
+    }
+    // Запрашиваем разрешение
     var perm = await Notification.requestPermission();
-    if(perm !== "granted") { showToast("Разрешение отклонено"); return; }
+    if(perm !== "granted") {
+      showToast("Разрешите уведомления в настройках телефона");
+      return;
+    }
+    // Получаем VAPID ключ
     var r = await fetch(BACKEND+"/api/vapid-public");
+    if(!r.ok) { showToast("Ошибка сервера: " + r.status); return; }
     var d = await r.json();
+    if(!d.key || d.key === "temp") {
+      showToast("VAPID ключ не настроен на сервере");
+      return;
+    }
+    // Подписываемся
     var newSub = await swReg.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(d.key)
@@ -390,6 +408,9 @@ async function toggleNotify() {
     await fetch(BACKEND+"/api/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(newSub.toJSON())});
     setNotifyBtn(true);
     showToast("Уведомления включены ✓");
+  } catch(e) {
+    console.error("Push error:", e);
+    showToast("Ошибка: " + e.message);
   }
 }
 function setNotifyBtn(on) {
