@@ -187,7 +187,7 @@ function renderLeads() {
       +'<div class="lead-header"><div class="lead-name">'+l.name+'</div><div class="lead-time">'+l.created+'</div></div>'
       +'<div class="lead-meta">'
       +'<span class="badge '+chClass+'">'+l.channel+'</span>'
-      +(l.city&&l.city!=="—"?'<span class="badge badge-green">🏙 '+l.city+'</span>':"")
+      +(l.city&&l.city!=="—"?'<span class="badge badge-green">🏙 '+l.city+'</span>':'')+(l.source&&l.source!=="—"?'<span class="badge" style="background:rgba(245,158,11,0.15);color:var(--yellow)">🌐 '+l.source+'</span>':'')
       +'</div>'
       +'<div class="lead-footer">'
       +'<div>'
